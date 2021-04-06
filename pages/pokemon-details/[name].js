@@ -120,6 +120,7 @@ export default function PokemonDetails({ pokemonData }) {
                 pokemonData.id
               )
             }
+            showThumbs={false}
           >
             <Image
               width={200}
@@ -320,7 +321,6 @@ export const getServerSideProps = async (context) => {
   const pokemonResponse = await getPokemonFetchQuery({
     name: context.query.name,
   });
-  console.log(pokemonResponse);
   return {
     props: {
       pokemonData: pokemonResponse.pokemon,

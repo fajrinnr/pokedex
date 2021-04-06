@@ -2,7 +2,6 @@
 import { css } from "@emotion/react";
 
 export const Pill = (props) => {
-  console.log(props);
   const styles = {
     container: css`
       background-color: #f7ba16;
