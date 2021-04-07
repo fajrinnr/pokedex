@@ -16,9 +16,3 @@ a {
   box-sizing: border-box;
   font-family: "DM Sans", sans-serif;
 }
-
-@font-face {
-  font-family: "Genuine";
-  src: url(/GENUINE.ttf);
-  font-display: swap;
-}

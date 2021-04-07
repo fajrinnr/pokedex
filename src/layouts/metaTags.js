@@ -8,6 +8,8 @@ export default function MetaTags({ currentURL }) {
       <meta property="og:type" content="website" />
       <meta property="og:url" content={currentURL} />
       <meta property="og:image" content="/pokeball.svg" />
+      <meta name="robots" content="index, follow" />
+      <meta name="theme-color" content="#282f4d" />
       <meta
         property="og:description"
         content="Pokedex by Fajrin is pokemon deck web that u can catch your pokemon and collect them, also you can get details about other pokemons."
@@ -16,11 +18,6 @@ export default function MetaTags({ currentURL }) {
         name="viewport"
         content="width=device-width, initial-scale=1.0"
       ></meta>
-      <meta name="robots" content="index, follow" />
-      <link rel="alternate" href="/" hrefLang="id-id" />
-      <link rel="alternate" href="/" hrefLang="en-id" />
-      <link rel="alternate" href="/" hrefLang="en-us" />
-      <link rel="alternate" href="/" hrefLang="en-gb" />
       <link rel="manifest" href="/manifest.json" />
       <link rel="apple-touch-icon" sizes="180x180" href="/pokeball.png" />
       <link rel="shortcut icon" href="/pokeball.svg" />

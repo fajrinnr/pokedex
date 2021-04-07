@@ -7,6 +7,12 @@
       "type": "image/png",
       "sizes": "441x441",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/pokeball.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": "/?source=pwa",
