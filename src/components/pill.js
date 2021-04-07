@@ -17,7 +17,6 @@ export const Pill = (props) => {
       ${props.customStyles?.elementP}
     `,
   };
-
   return (
     <div css={styles.container}>
       <p css={styles.elementP} onClick={props.onClickPill}>
