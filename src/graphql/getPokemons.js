@@ -1,4 +1,4 @@
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { GraphQLClient } from "graphql-request";
 

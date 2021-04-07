@@ -1,17 +1,13 @@
 import "../styles/globals.css";
-import "@brainhubeu/react-carousel/lib/style.css";
-import client from "../config/apollo";
-import { ApolloProvider } from "@apollo/client";
+import withData from "../config/apollo";
 import MyPokemonContext from "../src/contexts/myPokemonContext";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ApolloProvider client={client}>
-      <MyPokemonContext>
-        <Component {...pageProps} />
-      </MyPokemonContext>
-    </ApolloProvider>
+    <MyPokemonContext>
+      <Component {...pageProps} />
+    </MyPokemonContext>
   );
 }
 
-export default MyApp;
+export default withData(MyApp);
