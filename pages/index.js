@@ -26,9 +26,7 @@ export default function Home({ pokemons }) {
   const [getPokemons, { loading }] = useLazyQueryGetPokemons({
     onCompleted: ({ pokemons }) => {
       setNextOffset(pokemons.nextOffset);
-      setTimeout(() => {
-        setAllPokemons((prevResult) => prevResult.concat(pokemons.results));
-      }, 1000);
+      setAllPokemons((prevResult) => prevResult.concat(pokemons.results));
     },
   });
 

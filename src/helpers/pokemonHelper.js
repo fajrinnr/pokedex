@@ -35,7 +35,6 @@ export function releasePokemon(pokemonNickname, cb) {
   }).then((result) => {
     if (result.isConfirmed) {
       let updatedPokemons = getMyPokemons().filter((pokemon) => {
-        console.log(pokemon.nickname, pokemonNickname);
         return pokemon.nickname !== pokemonNickname;
       });
       cb();

@@ -88,7 +88,6 @@ export default function MyPokemon() {
           <h1 style={{ fontSize: 0 }}>My Pokemon Result of catching pokemon</h1>
           <div css={styles.container}>
             {myPokemons.map((pokemon, i) => {
-              console.log(pokemon);
               return (
                 <CardPokemonWithButton
                   key={i}
