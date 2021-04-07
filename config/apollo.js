@@ -1,6 +1,5 @@
 import withApollo from "next-with-apollo";
 import ApolloClient, { InMemoryCache } from "apollo-boost";
-import { ApolloProvider as ApolloProviderClient } from "@apollo/client";
 import { ApolloProvider } from "@apollo/react-hooks";
 export default withApollo(
   () => {
@@ -16,11 +15,9 @@ export default withApollo(
   {
     render: ({ Page, props }) => {
       return (
-        <ApolloProviderClient client={props.apollo}>
-          <ApolloProvider client={props.apollo}>
-            <Page {...props} />
-          </ApolloProvider>
-        </ApolloProviderClient>
+        <ApolloProvider client={props.apollo}>
+          <Page {...props} />
+        </ApolloProvider>
       );
     },
   }

@@ -109,3 +109,11 @@ export async function catchPokemon(pokemonName, pokemonImage, pokemonId) {
     });
   }
 }
+
+export function countTotalStatsPokemon(pokemonStats) {
+  let totalStats = 0;
+  pokemonStats.forEach((stat) => {
+    totalStats += stat.base_stat;
+  });
+  return totalStats;
+}

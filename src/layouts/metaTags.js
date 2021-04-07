@@ -33,10 +33,6 @@ export default function MetaTags({ currentURL }) {
         href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=DM+Sans:wght@400;700&display=swap"
         rel="stylesheet"
       ></link>
-      <script
-        src="https://kit.fontawesome.com/0f0612ffeb.js"
-        crossorigin="anonymous"
-      ></script>
       <link rel="canonical" href={currentURL} />
       <link rel="amphtml" href={`${currentURL}?amp=1`} />
     </Head>

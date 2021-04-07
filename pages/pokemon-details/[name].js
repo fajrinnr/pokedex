@@ -7,7 +7,10 @@ import MainLayout from "../../src/layouts/mainLayout";
 import { css } from "@emotion/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { catchPokemon } from "../../src/helpers/pokemonHelper";
+import {
+  catchPokemon,
+  countTotalStatsPokemon,
+} from "../../src/helpers/pokemonHelper";
 import {
   formatStringFromArray,
   formatStringFromString,
@@ -22,12 +25,14 @@ export const config = { amp: "hybrid" };
 export default function PokemonDetails({ pokemonData }) {
   const isAmp = useAmp();
   const [pokemonAbility, setPokemonAbility] = useState([]);
+  const [currentURL, setCurrentURL] = useState("");
   const [activeTab, setActiveTab] = useState({
     about: true,
     stats: false,
     moves: false,
   });
   useEffect(() => {
+    setCurrentURL(window.location.href);
     pokemonData.abilities.forEach(({ ability }) => {
       setPokemonAbility((prevstate) => [...prevstate, ability.name]);
     });
@@ -83,7 +88,7 @@ export default function PokemonDetails({ pokemonData }) {
   };
   return (
     <>
-      <MainLayout noHeader pokemonId={pokemonData.id}>
+      <MainLayout noHeader pokemonId={pokemonData.id} currentURL={currentURL}>
         <div
           css={css`
             font-family: "DM Sans", sans-serif;
@@ -149,38 +154,6 @@ export default function PokemonDetails({ pokemonData }) {
               }
             />
           </Carousel>
-          {/* <p css={styles.textCatchPokemon}>Swipe for more picture</p> */}
-          {/* {isAmp ? (
-              <amp-img
-                src={pokemonData.sprites.front_default}
-                width="200"
-                height="200"
-                layout="responsive"
-                alt={pokemonData.sprites.front_default}
-                onClick={() =>
-                  catchPokemon(
-                    pokemonData.name,
-                    pokemonData.sprites.front_default,
-                    pokemonData.id
-                  )
-                }
-              ></amp-img>
-            ) : (
-              <Image
-                width={200}
-                height={200}
-                src={pokemonData.sprites.front_default}
-                alt={pokemonData.sprites.front_default}
-                onClick={() =>
-                  catchPokemon(
-                    pokemonData.name,
-                    pokemonData.sprites.front_default,
-                    pokemonData.id
-                  )
-                }
-              />
-            )} */}
-          {/* </div> */}
           <div css={styles.bottomComponent}>
             <div css={styles.tabsContainer}>
               <Pill
@@ -231,26 +204,46 @@ export default function PokemonDetails({ pokemonData }) {
                 css={css`
                   display: flex;
                   width: 100%;
+                  justify-content: space-around;
+                  padding: 20px 0;
+                  flex-direction: column;
                 `}
               >
-                <p>About</p>
-                <div
+                <p
                   css={css`
-                    width: 30%;
+                    font-weight: bolder;
+                    font-size: 30px;
+                    margin: 0;
                   `}
                 >
-                  <p>Height</p>
-                  <p>Weight</p>
-                  <p>Abilities</p>
-                </div>
+                  About
+                </p>
                 <div
                   css={css`
-                    width: 70%;
+                    display: flex;
+                    width: 100%;
+                    padding: 20px 0;
                   `}
                 >
-                  <p>{pokemonData.height / 10} Meter</p>
-                  <p>{pokemonData.weight / 10} Kilogram</p>
-                  <p>{formatStringFromArray(pokemonAbility)}</p>
+                  <div
+                    css={css`
+                      width: 30%;
+                      font-weight: 700;
+                    `}
+                  >
+                    <p>Height</p>
+                    <p>Weight</p>
+                    <p>Abilities</p>
+                  </div>
+                  <div
+                    css={css`
+                      width: 70%;
+                    `}
+                  >
+                    <p>{pokemonData.height / 10}.0 m</p>
+                    <p>{pokemonData.weight / 10}.0 kg</p>
+                    <p>{formatStringFromArray(pokemonAbility)}</p>
+                  </div>
                 </div>
               </div>
             )}
@@ -260,25 +253,38 @@ export default function PokemonDetails({ pokemonData }) {
                   display: flex;
                   width: 100%;
                   justify-content: space-around;
+                  padding: 20px 0;
+                  flex-direction: column;
                 `}
               >
-                <div
+                <p
                   css={css`
-                    width: 30%;
+                    font-weight: bolder;
+                    font-size: 30px;
+                    margin: 0;
                   `}
                 >
-                  {pokemonData.stats.map(({ stat }, i) => {
-                    return <p key={i}>{formatStringFromString(stat.name)}</p>;
-                  })}
-                </div>
+                  Base Stats
+                </p>
                 <div
                   css={css`
-                    width: 70%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
                   `}
                 >
-                  {pokemonData.stats.map((stat, i) => {
-                    return <p key={i}>{stat.base_stat}</p>;
-                  })}
+                  <div>
+                    {pokemonData.stats.map(({ stat }, i) => {
+                      return <p key={i}>{formatStringFromString(stat.name)}</p>;
+                    })}
+                    <p>Total</p>
+                  </div>
+                  <div>
+                    {pokemonData.stats.map((stat, i) => {
+                      return <p key={i}>{stat.base_stat}</p>;
+                    })}
+                    <p>{countTotalStatsPokemon(pokemonData.stats)}</p>
+                  </div>
                 </div>
               </div>
             )}
@@ -287,27 +293,42 @@ export default function PokemonDetails({ pokemonData }) {
                 css={css`
                   display: flex;
                   width: 100%;
-                  margin: 20px 0 100px;
-                  flex-wrap: wrap;
-                  overflow: auto;
-                  -ms-overflow-style: none; /* IE and Edge */
-                  scrollbar-width: none; /* Firefox */
-                  ::-webkit-scrollbar {
-                    display: none;
-                  }
+                  justify-content: space-around;
+                  padding: 20px 0;
+                  flex-direction: column;
+                  height: 70vh;
                 `}
               >
-                {pokemonData.moves.map(({ move }, i) => {
-                  return (
-                    <Pill
-                      text={formatStringFromString(move.name)}
-                      key={i}
-                      customStyles={{
-                        container: `margin: 0 5px 10px 5px;`,
-                      }}
-                    />
-                  );
-                })}
+                <p
+                  css={css`
+                    font-weight: bolder;
+                    font-size: 30px;
+                    margin: 0;
+                  `}
+                >
+                  Moves
+                </p>
+                <div
+                  css={css`
+                    display: flex;
+                    width: 100%;
+                    margin: 20px 0 100px;
+                    flex-wrap: wrap;
+                    overflow: auto;
+                  `}
+                >
+                  {pokemonData.moves.map(({ move }, i) => {
+                    return (
+                      <Pill
+                        text={formatStringFromString(move.name)}
+                        key={i}
+                        customStyles={{
+                          container: `margin: 0 5px 10px 5px; background-color: #dad7cd;`,
+                        }}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             )}
           </div>

@@ -6,7 +6,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import MainLayout from "../src/layouts/mainLayout";
-import CardPokemon from "../src/components/cardPokemon";
+import { CardPokemon } from "../src/components/cardPokemon";
 import { useEffect, useState, useContext } from "react";
 import {
   countTotalOwnedPokemon,
@@ -18,8 +18,10 @@ export default function Home({ pokemons }) {
   const [allPokemons, setAllPokemons] = useState(pokemons.results);
   const [nextOffset, setNextOffset] = useState(pokemons.nextOffset);
   const { myPokemons, handleMyPokemons } = useContext(MyPokemonContext);
+  const [currentURL, setCurrentURL] = useState("");
   useEffect(() => {
     handleMyPokemons(getMyPokemons());
+    setCurrentURL(window.location.href);
   }, []);
   const [getPokemons, { loading }] = useLazyQueryGetPokemons({
     onCompleted: ({ pokemons }) => {
@@ -32,7 +34,7 @@ export default function Home({ pokemons }) {
 
   return (
     <>
-      <MainLayout>
+      <MainLayout currentURL={currentURL}>
         <h1 style={{ fontSize: 0 }}>Pokemon Deck By Fajrin</h1>
         <InfiniteScroll
           dataLength={allPokemons.length}

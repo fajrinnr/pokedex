@@ -5,7 +5,7 @@ import Header, { HeaderPokemonDetail } from "../components/header";
 export default function MainLayout(props) {
   return (
     <div>
-      <MetaTags currentURL="" />
+      <MetaTags currentURL={props.currentURL} />
       {!props?.noHeader ? (
         <Header />
       ) : (
