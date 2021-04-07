@@ -1,8 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import Image from "next/image";
-import { formatIdNumber } from "../helpers/formatter";
-import { goBack } from "../helpers/route";
 
 const styles = {
   containerHeader: css`
@@ -53,9 +51,9 @@ export function HeaderPokemonDetail(props) {
         height={40}
         src="/arrow-left-solid.svg"
         alt="arrow left"
-        onClick={() => goBack()}
+        onClick={props.onClick}
       />
-      <p css={styles.textIdNumber}>{formatIdNumber(props.id)}</p>
+      <p css={styles.textIdNumber}>{props.id}</p>
     </div>
   );
 }

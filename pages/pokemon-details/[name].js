@@ -102,9 +102,87 @@ const ContentTab = (props) => {
   );
 };
 
+const MovesTab = ({ pokemonData }) => {
+  return (
+    <ContentTab
+      titleText="Moves"
+      customStyles={{
+        container: { height: "70vh", justifyContent: "start" },
+        content: {
+          margin: "20px 0 100px",
+          flexWrap: "wrap",
+          overflow: "auto",
+        },
+      }}
+    >
+      {pokemonData.moves.map(({ move }, i) => {
+        return (
+          <Pill
+            text={formatStringFromString(move.name)}
+            key={i}
+            customStyles={{
+              container: `margin: 0 5px 10px 5px; background-color: #dad7cd;`,
+            }}
+          />
+        );
+      })}
+    </ContentTab>
+  );
+};
+
+const StatsTab = ({ pokemonData }) => {
+  return (
+    <ContentTab
+      titleText="Base Stats"
+      customStyles={{
+        content: { justifyContent: "space-between", margin: 0 },
+      }}
+    >
+      <div>
+        {pokemonData.stats.map(({ stat }, i) => {
+          return <p key={i}>{formatStringFromString(stat.name)}</p>;
+        })}
+        <p>Total</p>
+      </div>
+      <div>
+        {pokemonData.stats.map((stat, i) => {
+          return <p key={i}>{stat.base_stat}</p>;
+        })}
+        <p>{countTotalStatsPokemon(pokemonData.stats)}</p>
+      </div>
+    </ContentTab>
+  );
+};
+
+const AboutTab = ({ pokemonData, pokemonAbilities }) => {
+  return (
+    <ContentTab titleText="About" customStyles={{ content: { margin: 0 } }}>
+      <div
+        css={css`
+          width: 30%;
+          font-weight: 700;
+        `}
+      >
+        <p>Height</p>
+        <p>Weight</p>
+        <p>Abilities</p>
+      </div>
+      <div
+        css={css`
+          width: 70%;
+        `}
+      >
+        <p>{(pokemonData.height / 10).toFixed(1)} m</p>
+        <p>{(pokemonData.weight / 10).toFixed(1)} kg</p>
+        <p>{formatStringFromArray(pokemonAbilities)}</p>
+      </div>
+    </ContentTab>
+  );
+};
+
 export default function PokemonDetails({ pokemonData }) {
   const isAmp = useAmp();
-  const [pokemonAbility, setPokemonAbility] = useState([]);
+  const [pokemonAbilities, setPokemonAbilities] = useState([]);
   const [currentURL, setCurrentURL] = useState("");
   const [activeTab, setActiveTab] = useState({
     about: true,
@@ -114,7 +192,7 @@ export default function PokemonDetails({ pokemonData }) {
   useEffect(() => {
     setCurrentURL(window.location.href);
     pokemonData.abilities.forEach(({ ability }) => {
-      setPokemonAbility((prevstate) => [...prevstate, ability.name]);
+      setPokemonAbilities((prevstate) => [...prevstate, ability.name]);
     });
   }, []);
 
@@ -208,77 +286,13 @@ export default function PokemonDetails({ pokemonData }) {
               />
             </div>
             {activeTab.about && (
-              <ContentTab
-                titleText="About"
-                customStyles={{ content: { margin: 0 } }}
-              >
-                <div
-                  css={css`
-                    width: 30%;
-                    font-weight: 700;
-                  `}
-                >
-                  <p>Height</p>
-                  <p>Weight</p>
-                  <p>Abilities</p>
-                </div>
-                <div
-                  css={css`
-                    width: 70%;
-                  `}
-                >
-                  <p>{(pokemonData.height / 10).toFixed(1)} m</p>
-                  <p>{(pokemonData.weight / 10).toFixed(1)} kg</p>
-                  <p>{formatStringFromArray(pokemonAbility)}</p>
-                </div>
-              </ContentTab>
+              <AboutTab
+                pokemonData={pokemonData}
+                pokemonAbilities={pokemonAbilities}
+              />
             )}
-            {activeTab.stats && (
-              <ContentTab
-                titleText="Base Stats"
-                customStyles={{
-                  content: { justifyContent: "space-between", margin: 0 },
-                }}
-              >
-                <div>
-                  {pokemonData.stats.map(({ stat }, i) => {
-                    return <p key={i}>{formatStringFromString(stat.name)}</p>;
-                  })}
-                  <p>Total</p>
-                </div>
-                <div>
-                  {pokemonData.stats.map((stat, i) => {
-                    return <p key={i}>{stat.base_stat}</p>;
-                  })}
-                  <p>{countTotalStatsPokemon(pokemonData.stats)}</p>
-                </div>
-              </ContentTab>
-            )}
-            {activeTab.moves && (
-              <ContentTab
-                titleText="Moves"
-                customStyles={{
-                  container: { height: "70vh", justifyContent: "start" },
-                  content: {
-                    margin: "20px 0 100px",
-                    flexWrap: "wrap",
-                    overflow: "auto",
-                  },
-                }}
-              >
-                {pokemonData.moves.map(({ move }, i) => {
-                  return (
-                    <Pill
-                      text={formatStringFromString(move.name)}
-                      key={i}
-                      customStyles={{
-                        container: `margin: 0 5px 10px 5px; background-color: #dad7cd;`,
-                      }}
-                    />
-                  );
-                })}
-              </ContentTab>
-            )}
+            {activeTab.stats && <StatsTab pokemonData={pokemonData} />}
+            {activeTab.moves && <MovesTab pokemonData={pokemonData} />}
           </div>
         </div>
       </MainLayout>

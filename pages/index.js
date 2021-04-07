@@ -79,8 +79,7 @@ export default function Home({ pokemons }) {
   );
 }
 
-export const getServerSideProps = async (ctx) => {
-  // Fetch data from external API
+export const getServerSideProps = async () => {
   const pokemonListResponse = await getPokemonsFetchQuery({
     limit: 10,
     offset: 0,

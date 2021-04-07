@@ -4,7 +4,7 @@ import { ApolloProvider } from "@apollo/react-hooks";
 export default withApollo(
   () => {
     return new ApolloClient({
-      uri: "https://graphql-pokeapi.vercel.app/api/graphql",
+      uri: process.env.GRAPHQL_URL,
       cache: new InMemoryCache(),
       onError: ({ networkError, graphQLErrors }) => {
         graphQLErrors && console.log("⚛️ GraphQl Error ⚛️", graphQLErrors);
